@@ -1,0 +1,35 @@
+    <nav class="navbar navbar-inverse navbar-toggleable">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="Navbar">
+                <ul class="navbar-nav mr-auto">
+                    <li id="mnu_home" class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li id="mnu_customers" class="nav-item"><a class="nav-link" href="customers.htm">Customers</a></li>
+                    <li id="mnu_projects" class="nav-item"><a class="nav-link" href="projects.htm">Projects</a></li>
+                    <li id="mnu_reg_time" class="nav-item"><a class="nav-link" href="reg_time.htm">Registered Time</a></li>
+                </ul>
+            </div>        
+        </div>
+    </nav>
+
+    <script>
+        //  Based on which is the active page, the corresponding menu item becomes active
+        $(document).ready(function(){
+            switch($("#page").text()){
+                case "Home":
+                    $("#mnu_home").attr("class", "nav-item active");
+                    break;
+                case "Customers":
+                    $("#mnu_customers").attr("class", "nav-item active");
+                    break;
+                case "Projects":
+                    $("#mnu_projects").attr("class", "nav-item active");
+                    break;
+                case "Registered Time":
+                    $("#mnu_reg_time").attr("class", "nav-item active");
+                    break;
+            }
+        });
+    </script>

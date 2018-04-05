@@ -1,0 +1,46 @@
+$background-dark: #512FFF;
+$background-light: #517FFF;
+$background-pale: #518EFF;
+$text-light: #DDDD88;
+
+body {
+    margin: 0px;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    background-color: $background-light;
+}
+
+a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    color: $text-light;
+    font-weight: bold;
+}
+a:hover {
+    color: floralwhite;
+}
+
+header {
+    margin: 0px;
+    padding: 10px 10px 10px 10px;
+    color: floralwhite;
+    background-color: $background-dark;
+}
+.nav {
+    margin: 0px;
+}
+.navbar-inverse {
+    background-color: #512DA8; 
+}
+.footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding: 5px;
+    color: floralwhite;
+    background-color: $background-dark;
+    text-align: center;
+}
+
+li {
+    padding-right: 20px;
+}

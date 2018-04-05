@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/styles.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/scripts.js"></script>
+
+    <title>Project Time Manager</title>
+    <link rel="icon" type="image/jpg" href="#">
+</head>
+<body>
+    <!-- 
+        The text of this hidden id will be retrieved in nav.htm in order to assign 
+        the class "active" to the appropriate menu option 
+    --> 
+    <div id="page" hidden>Home</div>
+
+    <!--    
+        Header, nav, and footer will be loaded from their respective pages via jQuery 
+        (see code at the bottom of the page)
+    -->
+    <div id="header"></div>
+    <div id="nav"></div>
+    
+    <div class="container">
+        <div class="row row-content">
+            <div class="col">
+                <!-- here goes the background image -->
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#header").load("header.htm");
+            $("#nav").load("nav.htm");
+            $("#footer").load("footer.htm");
+        });
+    </script>
+</body>
+</html>
