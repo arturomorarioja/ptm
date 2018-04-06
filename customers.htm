@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <link rel="shortcut icon" href="img/stopwatch.png" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/styles.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/scripts.js"></script>
+    <script src="js/jquery.min.js"></script>
+
+    <title>Project Time Manager</title>
+    <link rel="icon" type="image/jpg" href="#">
+</head>
+<body>
+    <!-- 
+        The text of this hidden id will be retrieved in nav.htm in order to assign 
+        the class "active" to the appropriate menu option 
+    --> 
+    <div id="page" hidden>Customers</div>
+
+    <!--    
+        Header, nav, and footer will be loaded from their respective pages via jQuery 
+        (see code at the bottom of the page)
+    -->
+    <div id="header"></div>
+    <div id="nav"></div>
+    
+    <!-- Here the list of customers is loaded -->
+    <div class="container">
+        <div class="row row-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>CVR</th>
+                        <th>Customer Name</th>
+                        <th>Location</th>
+                        <th>Country</th>
+                    </tr>
+                </thead>
+                <tbody id="content">
+                    <!-- <div class="col" id="content"></div> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <!-- Modal containing the customer form -->
+    <div id="modalCustomers" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg" role="content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Update Customer</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="src/main.php">
+                        <div class="form-group row align-items-center">
+                            <input type="text" id="txtCustomerID" name="txtCustomerID" hidden /> 
+                            <label for="txtCVR" class="col-2 col-form-label">CVR</label>
+                            <div class="col"><input type="text" id="txtCVR" name="txtCVR" maxlength="8" size="8" /></div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="txtName" class="col-2 col-form-label">Name</label>
+                            <div class="col">
+                                <input type="text" class="form-control" id="txtName" name="txtName" maxlength="60" size="60" />
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="txtAddress" class="col-2 col-form-label">Address</label>
+                            <div class="col"><input type="text" class="form-control" id="txtAddress" name="txtAddress" maxlength="80" size="60" /></div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="txtPostCode" class="col-2 col-form-label">Postal Code</label>
+                            <div class="col"><input type="text" id="txtPostCode" name="txtPostCode" maxlength="4" size="2" /></div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="txtTown" class="col-2 col-form-label">Town</label>
+                            <div class="col"><input type="text" class="form-control" id="txtTown" name="txtTown" maxlength="40" size="40" /></div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="cmbCountries" class="col-2 col-form-label">Country</label>
+                            <div class="col"><select class="form-control" name="cmbCountries" id="cmbCountries"></select></div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="txtPhone" class="col-2 col-form-label">Phone no.</label>
+                            <div class="col"><input type="text" id="txtPhone" name="txtPhone" maxlength="8" size="8" /></div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="txtEmail" class="col-2 col-form-label">E-mail</label>
+                            <div class="col"><input type="email" class="form-control" id="txtEmail" name="txtEmail" maxlength="255" size="60" /></div>
+                        </div>
+                        <div class="col-4 col-xs-8">
+                            <button role="button" class="btn btn-primary" role="submit">Ok</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#header").load("header.htm");
+            $("#nav").load("nav.htm");
+            $("#footer").load("footer.htm");
+        });
+
+        // Initial loads: customers are loaded in the table, countries in the comboBox
+        $.get("src/main.php").done(function(paCustomers){
+            var acCustomers = JSON.parse(paCustomers);
+            var cCustomers = "";
+
+            $.each(acCustomers, function(nIndex, xValue) {
+                cCustomers += ("<tr data-toggle='modal' data-target='#modalCustomers'"
+                    + " onClick='FGetCustomer(" + xValue[0] + ")'><td>" 
+                    + xValue[1] + "</td><td>" 
+                    + xValue[2] + "</td><td>" 
+                    + xValue[3] + "</td><td>" 
+                    + xValue[4] + "</td></tr>");
+            });
+            document.getElementById("content").innerHTML = cCustomers;
+
+            FGetAllCountries();     // Countries are loaded in the countries comboBox
+        });
+    </script>
+</body>
+</html>

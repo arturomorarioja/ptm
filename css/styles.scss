@@ -1,18 +1,23 @@
 $background-dark: #512FFF;
 $background-light: #517FFF;
+$background-lighter: #AEAEF0;
 $background-pale: #518EFF;
-$text-light: #DDDD88;
+$light: #DDDD88;
+$darker: #512DA8;
 
 body {
     margin: 0px;
     font-family: Verdana, Helvetica, Arial, sans-serif;
     background-color: $background-light;
 }
+h1 {
+    text-align: left;
+}
 
 a {
     font-family: Arial, Helvetica, sans-serif;
     text-decoration: none;
-    color: $text-light;
+    color: $light;
     font-weight: bold;
 }
 a:hover {
@@ -29,9 +34,16 @@ header {
     margin: 0px;
 }
 .navbar-inverse {
-    background-color: #512DA8; 
+    background-color: $darker; 
 }
-.footer {
+#background {
+    width: 100%;
+    height: 100%;
+}
+#content {
+    margin-bottom: 90px;
+}
+footer {
     position: fixed;
     bottom: 0px;
     width: 100%;
@@ -43,4 +55,38 @@ header {
 
 li {
     padding-right: 20px;
+}
+
+table {
+    width: 100%;
+    margin-top: 10px;
+}
+thead {
+    color: $darker;
+    background-color: $background-lighter;
+}
+th, td {
+    padding: 0px 10px 0px 10px;
+}
+td {
+    background-color: floralwhite;
+}
+tr {
+    border-bottom: solid thin black;
+}
+tr:hover td {
+    color: floralwhite;
+    background-color: $background-dark;
+    cursor: zoom-in;
+}
+
+.modal-header {
+    color: floralwhite;
+    background-color: $background-dark;
+}
+button {
+    cursor: pointer;
+}
+.form-group {
+    height: 1.4em;
 }
