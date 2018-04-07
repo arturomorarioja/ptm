@@ -91,6 +91,16 @@ button {
     height: 1.4em;
 }
 
+.btn-row {
+    margin-top: 10px;
+}
+.cmb-row {
+    margin-top: 10px;
+    background-color: $background-lighter;
+}
+.tab-row {
+    background-color: $background-lighter;
+}
 .td-del {
     width: 20px;
     text-align: center;
@@ -100,4 +110,8 @@ button {
 }
 .btn-del:hover {
     cursor: pointer;
+}
+
+.txt-area {
+    margin-bottom: 5px;
 }
