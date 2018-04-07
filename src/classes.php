@@ -74,6 +74,38 @@
                 return($bOk);
             }
         }
+
+        // Deletes the customer whose PK receives as a parameter. Return values:
+        // 0 Error / 1 Success / 2 Referential integrity problem
+        function nDelete($pnCustomerID){
+            define("RET_ERROR", 0);
+            define("RET_OK", 1);
+            define("RET_REFERENTIAL_INTEGRITY", 2);
+
+            $cnDB = $this->dbConnect();
+            if(!$cnDB)
+                return false;
+            else {
+                // If the customer has projects, it will not be deleted
+                $cSQL = "SELECT nProjectID FROM project";
+                $cSQL .= " WHERE nCustomerID = " . $pnCustomerID;
+
+                $aQuery = $cnDB->query($cSQL);
+                if($aQuery->num_rows > 0)
+                    $nResult = RET_REFERENTIAL_INTEGRITY;                
+                else {
+                    $cSQL = "DELETE FROM customer";
+                    $cSQL .= " WHERE nCustomerID = " . $pnCustomerID;
+
+                    if($cnDB->query($cSQL))
+                        $nResult = RET_OK;
+                    else
+                        $nResult = RET_ERROR;                
+                }
+                $this->bDisconnect($cnDB);
+                return($nResult);
+            }
+        }
     }
 
     /*

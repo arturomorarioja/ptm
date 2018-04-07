@@ -90,3 +90,14 @@ button {
 .form-group {
     height: 1.4em;
 }
+
+.td-del {
+    width: 20px;
+    text-align: center;
+}
+.btn-del {
+    border: solid thin black;
+}
+.btn-del:hover {
+    cursor: pointer;
+}

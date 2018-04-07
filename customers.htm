@@ -38,6 +38,7 @@
                         <th>Customer Name</th>
                         <th>Location</th>
                         <th>Country</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="content">
@@ -60,31 +61,35 @@
                 <div class="modal-body">
                     <form method="POST" action="src/main.php">
                         <div class="form-group row align-items-center">
-                            <input type="text" id="txtCustomerID" name="txtCustomerID" hidden /> 
+                            <input type="text" id="txtCustomerID" name="txtCustomerID" value="NEW" hidden /> 
                             <label for="txtCVR" class="col-2 col-form-label">CVR</label>
-                            <div class="col"><input type="text" id="txtCVR" name="txtCVR" maxlength="8" size="8" /></div>
+                            <div class="col"><input type="text" id="txtCVR" name="txtCVR" 
+                                maxlength="8" size="8" /></div>
                         </div>
                         <div class="form-group row align-items-center">
                             <label for="txtName" class="col-2 col-form-label">Name</label>
-                            <div class="col">
-                                <input type="text" class="form-control" id="txtName" name="txtName" maxlength="60" size="60" />
-                            </div>
+                            <div class="col"><input type="text" class="form-control" 
+                                id="txtName" name="txtName" maxlength="60" size="60" /></div>
                         </div>
                         <div class="form-group row align-items-center">
                             <label for="txtAddress" class="col-2 col-form-label">Address</label>
-                            <div class="col"><input type="text" class="form-control" id="txtAddress" name="txtAddress" maxlength="80" size="60" /></div>
+                            <div class="col"><input type="text" class="form-control" 
+                                id="txtAddress" name="txtAddress" maxlength="80" size="60" /></div>
                         </div>
                         <div class="form-group row align-items-center">
                             <label for="txtPostCode" class="col-2 col-form-label">Postal Code</label>
-                            <div class="col"><input type="text" id="txtPostCode" name="txtPostCode" maxlength="4" size="2" /></div>
+                            <div class="col"><input type="text" id="txtPostCode" name="txtPostCode" 
+                                maxlength="4" size="2" /></div>
                         </div>
                         <div class="form-group row align-items-center">
                             <label for="txtTown" class="col-2 col-form-label">Town</label>
-                            <div class="col"><input type="text" class="form-control" id="txtTown" name="txtTown" maxlength="40" size="40" /></div>
+                            <div class="col"><input type="text" class="form-control" 
+                                id="txtTown" name="txtTown" maxlength="40" size="40" /></div>
                         </div>
                         <div class="form-group row align-items-center">
                             <label for="cmbCountries" class="col-2 col-form-label">Country</label>
-                            <div class="col"><select class="form-control" name="cmbCountries" id="cmbCountries"></select></div>
+                            <div class="col"><select class="form-control" 
+                                name="cmbCountries" id="cmbCountries"></select></div>
                         </div>
                         <div class="form-group row align-items-center">
                             <label for="txtPhone" class="col-2 col-form-label">Phone no.</label>
@@ -92,7 +97,8 @@
                         </div>
                         <div class="form-group row align-items-center">
                             <label for="txtEmail" class="col-2 col-form-label">E-mail</label>
-                            <div class="col"><input type="email" class="form-control" id="txtEmail" name="txtEmail" maxlength="255" size="60" /></div>
+                            <div class="col"><input type="email" class="form-control" 
+                                id="txtEmail" name="txtEmail" maxlength="255" size="60" /></div>
                         </div>
                         <div class="col-4 col-xs-8">
                             <button role="button" class="btn btn-primary" role="submit">Ok</a>
@@ -111,25 +117,9 @@
             $("#header").load("header.htm");
             $("#nav").load("nav.htm");
             $("#footer").load("footer.htm");
-        });
-
-        // Initial loads: customers are loaded in the table, countries in the comboBox
-        $.get("src/main.php").done(function(paCustomers){
-            var acCustomers = JSON.parse(paCustomers);
-            var cCustomers = "";
-
-            $.each(acCustomers, function(nIndex, xValue) {
-                cCustomers += ("<tr data-toggle='modal' data-target='#modalCustomers'"
-                    + " onClick='FGetCustomer(" + xValue[0] + ")'><td>" 
-                    + xValue[1] + "</td><td>" 
-                    + xValue[2] + "</td><td>" 
-                    + xValue[3] + "</td><td>" 
-                    + xValue[4] + "</td></tr>");
-            });
-            document.getElementById("content").innerHTML = cCustomers;
-
+            FGetAllCustomers();     // Customers are loaded in the table
             FGetAllCountries();     // Countries are loaded in the countries comboBox
         });
-    </script>
+   </script>
 </body>
 </html>
