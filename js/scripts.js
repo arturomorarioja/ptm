@@ -418,6 +418,39 @@ function FDeleteProject(pnProjectID){
 }
 
 /*
+    Formats a time string ("hh:mm:ss") into a displayable format
+
+    Author: Arturo Mora-Rioja
+    Date: 8/4/2018
+*/
+function FcFormatTime(pnTime){
+    return pnTime.substring(0, 2) + "h " + pnTime.substring(3, 5 ) + "'";
+}
+
+/*
+    It converts a time string ("hh:mm:ss") to its number of minutes, ignoring the seconds
+
+    Author: Arturo Mora-Rioja
+    Date: 8/4/2018
+*/
+function FnTimeToMinutes(pcTime){
+    return parseInt(pcTime.substring(3, 5)) + parseInt(pcTime.substring(0,2) * 60);
+}
+
+/*
+    Formats a number of minutes into a displayable string
+
+    Author: Arturo Mora-Rioja
+    Date: 8/4/2018
+*/
+function FcFormatMinutes(pnMinutes){
+    var nHours = parseInt(pnMinutes / 60);
+    var nRemainingMinutes = (pnMinutes - (nHours * 60));
+
+    return nHours.toString() + "h " + nRemainingMinutes.toString() + (nRemainingMinutes < 10 ? "0" : "") + "&apos;";
+}
+
+/*
     Loads in the table the registered times for the customer or project whose PK it receives as first parameter.
     If the second parameter is true, it is a customer PK, if it is false it is a project PK
 
@@ -437,6 +470,7 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
             var COMMENTS = 4;
             var acRegTimes = JSON.parse(data);
             var cRegTimes = "";
+            var nTotal = 0;
 
             $.each(acRegTimes, function(nIndex, xValue) {
                 cModal = " data-toggle='modal' data-target='#modalRegTimes'"
@@ -444,12 +478,21 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
                 cRegTimes += ("<tr id='" + xValue[REG_TIME_ID] + "'><td" + cModal + ">" 
                     + xValue[PROJECT_NAME] + "</td><td" + cModal + ">" 
                     + xValue[REG_DATE] + "</td><td" + cModal + ">" 
-                    + xValue[TIME] + "</td><td" + cModal + ">" 
+                    + FcFormatTime(xValue[TIME]) + "</td><td" + cModal + ">" 
                     + xValue[COMMENTS] + "</td><td class='td-del'>"
                     + "<img src='img/delete.png' class='btn-del'" 
                     + " onClick='FDeleteRegTime(" + xValue[REG_TIME_ID] + ")' /></td></tr>");
+
+                nTotal += FnTimeToMinutes(xValue[TIME]);
             });
             document.getElementById("content").innerHTML = cRegTimes;
+
+            var cTotal = "<div class='row row-content'>";
+            cTotal += "<label for='txtTotal' class='col-form-label offset-1'>Total registered time</label>";
+            cTotal += "<div class='col offset-2'><input type='text' class='form-control text-right'";
+            cTotal += " value='" + FcFormatMinutes(nTotal) + "' disabled /></div>";
+
+            document.getElementById("total").innerHTML = cTotal;
         }
     });
 }

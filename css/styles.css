@@ -39,6 +39,10 @@ header {
   height: 100%;
 }
 
+#body {
+  margin-bottom: 100px;
+}
+
 #content {
   margin-bottom: 90px;
 }
@@ -108,7 +112,6 @@ button {
 
 .tab-row {
   background-color: #AEAEF0;
-  margin-bottom: 80px;
 }
 
 .td-del {
