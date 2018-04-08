@@ -36,19 +36,17 @@
                 onClick="FCustomerInit()">New Customer</button>
         </div>
         <div class="row row-content">
-            <table>
+            <table id="data">
                 <thead>
                     <tr>
-                        <th>CVR</th>
-                        <th>Customer Name</th>
-                        <th>Location</th>
-                        <th>Country</th>
+                        <th class="sortable" id="0" onClick="FTableSort('content', 0);">CVR</th>
+                        <th class="sortable" id="1" onClick="FTableSort('content', 1);">Customer Name</th>
+                        <th class="sortable" id="2" onClick="FTableSort('content', 2);">Location</th>
+                        <th class="sortable" id="3" onClick="FTableSort('content', 3);">Country</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody id="content">
-                    <!-- <div class="col" id="content"></div> -->
-                </tbody>
+                <tbody id="content"></tbody>
             </table>
         </div>
     </div>

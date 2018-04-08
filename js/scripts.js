@@ -611,3 +611,31 @@ function FDeleteRegTime(pnRegTimeID){
             }
         });
 }
+
+/*
+    Sorts the tbody whose id it receives as first parameter 
+    by the column whose index it receives as second parameter
+
+    Author: Arturo Mora-Rioja
+    Date: 8/4/2018
+*/
+function FTableSort(pcTable, pnIndex){
+    var acTrs = document.getElementById(pcTable).getElementsByTagName("tr");
+    var acTds = [];
+    var cTableContent = "";
+
+    // An array is filled with all td values and indexes for the column to order.
+    for(nCount = 0; nCount < acTrs.length; nCount++)
+        acTds.push(acTrs[nCount].getElementsByTagName("td")[pnIndex].innerHTML + "||" + nCount.toString());
+
+    // The array is sorted based on content
+    acTds.sort();
+
+    for(nCount = 0; nCount < acTds.length; nCount++){
+        nIndex = parseInt(acTds[nCount].substring(acTds[nCount].indexOf("||") + 2));
+        cTableContent += "<tr>" + 
+            acTrs[nIndex].innerHTML
+            + "</tr>";
+    }
+    document.getElementById(pcTable).innerHTML = cTableContent;
+}
