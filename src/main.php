@@ -1,4 +1,11 @@
 <?php
+    /**
+     * This file serves as an entry point to the server code.
+     * A series of POST values inform about which PHP class and method to invoke.
+     * 
+     * @author Arturo Mora-Rioja
+     * @date   7/4/2018 
+     */
     include("classes.php");
 
     $oCustomer = new Customer();
@@ -6,6 +13,7 @@
     $oProject = new Project();
     $oRegTime = new RegTime();
 
+    // The call comes from the customer form
     if(isset($_POST['txtCustomerID'])){
         // Insert customer
         if($_POST['txtCustomerID'] == "NEW"){
@@ -17,6 +25,7 @@
                 $_POST['txtAddress'], $_POST['txtPostCode'], $_POST['txtTown'], $_POST['txtPhone'], 
                 $_POST['txtEmail'], $_POST['cmbCountries']));
         }
+    // The call comes from the project form
     } elseif(isset($_POST['txtProjectID'])){
         // Insert project
         if($_POST['txtProjectID'] == "NEW"){
@@ -26,6 +35,7 @@
             echo json_encode($oProject->bUpdate($_POST['txtProjectID'], $_POST['cmbCustomers'], 
                 $_POST['txtName'], $_POST['txtStartDate'], $_POST['txtEndDate'], $_POST['txtComments']));
         }
+    // The call comes from the registered time form
     } elseif(isset($_POST['txtRegTimeID'])){
         // Insert registered time
         if($_POST['txtRegTimeID'] == "NEW"){
@@ -35,6 +45,7 @@
             echo json_encode($oRegTime->bUpdate($_POST['txtRegTimeID'], $_POST['cmbProjects'], 
                 $_POST['txtRegDate'], $_POST['txtRegTime'], $_POST['txtComments']));
         }
+    // The call comes from a JavaScript function
     } elseif(isset($_POST['cElement'])){
         switch($_POST['cElement']){
             case "Customers":               // Get all customers
