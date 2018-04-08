@@ -1,4 +1,2 @@
 resources
-js/bootstrap.min.js
-js/jquery.min.js
-js/tether.min.js
+node_modules

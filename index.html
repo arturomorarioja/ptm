@@ -6,9 +6,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
 
     <link rel="shortcut icon" href="img/stopwatch.png" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css" rel="stylesheet" />
     <script type="text/javascript" src="js/scripts.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 
     <title>Project Time Manager</title>
     <link rel="icon" type="image/jpg" href="#">
@@ -28,16 +29,18 @@
     <div id="nav"></div>
     
     <div class="container">
-        <div class="row row-content">
-            <img src="img/background.jpg" id="background">
+        <div class="row row-content" id="cover">
+            <div class="col-4 col-xs-8"><a href="customers.htm">
+                <img src="img/customer.png" alt="Customers" title="Customers" /></a></div>
+            <div class="col-4 col-xs-8"><a href="projects.htm">
+                <img src="img/check.png" alt="Projects" title="Projects" /></a></div>
+            <div class="col-4 col-xs-8"><a href="reg_times.htm">
+                <img src="img/clock.png" alt="Registered Times" title="Registered Times" /></a></div>
         </div>
     </div>
 
     <div id="footer"></div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tether.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function(){
             $("#header").load("header.htm");
@@ -45,5 +48,7 @@
             $("#footer").load("footer.htm");
         });
     </script>
+    <script src="node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

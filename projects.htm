@@ -6,10 +6,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
 
     <link rel="shortcut icon" href="img/stopwatch.png" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css" rel="stylesheet" />
     <script type="text/javascript" src="js/scripts.js"></script>
-    <script src="js/jquery.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 
     <title>Project Time Manager</title>
     <link rel="icon" type="image/jpg" href="#">
@@ -106,8 +106,6 @@
         </div>
     </div>
 
-    <script src="js/tether.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function(){
             $("#header").load("header.htm");
@@ -118,6 +116,8 @@
                                         // (in the search page and in the modal form)
             FSubmitProject();           // This function handles the modal form submit
         });
-   </script>
+    </script>
+    <script src="node_modules/tether/dist/js/tether.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
