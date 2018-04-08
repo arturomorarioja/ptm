@@ -98,17 +98,17 @@ button {
   height: 1.4em;
 }
 
-.btn-row {
+.top-spc-row {
   margin-top: 10px;
 }
 
 .cmb-row {
-  margin-top: 10px;
   background-color: #AEAEF0;
 }
 
 .tab-row {
   background-color: #AEAEF0;
+  margin-bottom: 80px;
 }
 
 .td-del {
@@ -126,4 +126,8 @@ button {
 
 .txt-area {
   margin-bottom: 5px;
+}
+
+#submit {
+  color: floralwhite;
 }

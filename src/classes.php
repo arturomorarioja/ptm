@@ -191,6 +191,29 @@
             }
         }      
 
+        // Returns an array with the projects of the customer whose PK receives as a parameter
+        function aProjectsByCustomer($pnCustomerID){
+            $cnDB = $this->dbConnect();
+            if(!$cnDB)
+                return false;
+            else {
+                $aResults = array();
+
+                $cSQL = "SELECT nProjectID, cName";
+                $cSQL .= " FROM project";
+                $cSQL .= " WHERE nCustomerID = " . $pnCustomerID;
+
+                $aQuery = $cnDB->query($cSQL);
+                while($rRow = $aQuery->fetch_row())
+                    $aResults[] = $rRow;
+                
+                $aQuery->close();
+                $this->bDisconnect($cnDB);
+
+                return($aResults);
+            }
+        }      
+
         // Returns an array with the data of the project whose PK receives as a parameter
         function aProject($pnProjectID){
             $cnDB = $this->dbConnect();
@@ -283,7 +306,128 @@
                 $this->bDisconnect($cnDB);
                 return($nResult);
             }
+        }        
+    }
+
+    /*
+        Encapsulates the registered times
+
+        Author: Arturo Mora-Rioja
+        Date: 7/4/2018
+    */
+    class RegTime extends DB {
+        // Returns a bidimensional array with the data of all registered times of the customer or project
+        // whose PK it receives as first parameter. 
+        // The second parameter specifies whether the first parameter refers to a customer (true) or project (false)
+        function aRegTimes($pnValueID, $pbIsCustomer){
+            $cnDB = $this->dbConnect();
+            if(!$cnDB)
+                return false;
+            else {
+                $aResults = array();
+
+                $cSQL = "SELECT reg_time.nRegTimeID, project.cName, reg_time.dRegistration, reg_time.dTime, reg_time.tComments";
+                $cSQL .= " FROM reg_time INNER JOIN project";
+                $cSQL .= "  ON reg_time.nProjectID = project.nProjectID";
+                if($pbIsCustomer == "true")
+                    $cSQL .= " WHERE project.nCustomerID = " . $pnValueID;
+                else
+                    $cSQL .= " WHERE reg_time.nProjectID = " . $pnValueID;
+
+                $aQuery = $cnDB->query($cSQL);
+                while($rRow = $aQuery->fetch_row())
+                    $aResults[] = $rRow;
+                
+                $aQuery->close();
+                $this->bDisconnect($cnDB);
+
+                return($aResults);
+            }
         }
         
-    }
+        // Returns an array with the data of the registered time whose PK receives as a parameter
+        function aRegTime($pnRegTimeID){
+            $cnDB = $this->dbConnect();
+            if(!$cnDB)
+                return false;
+            else {
+                $cSQL = "SELECT project.nCustomerID, reg_time.nProjectID, reg_time.dRegistration";
+                $cSQL .= ", reg_time.dTime, reg_time.tComments";
+                $cSQL .= " FROM reg_time INNER JOIN project";
+                $cSQL .= "  ON reg_time.nProjectID = project.nProjectID";
+                $cSQL .= " WHERE reg_time.nRegTimeID = " . $pnRegTimeID;
+
+                $aQuery = $cnDB->query($cSQL);
+                $aResults = $aQuery->fetch_row();                
+                
+                $aQuery->close();
+                $this->bDisconnect($cnDB);
+
+                return($aResults);
+            }
+        }
+
+        // Inserts a new registered time
+        function bInsert($pnProjectID, $pdRegistration, $pdRegTime, $pcComments){
+            $cnDB = $this->dbConnect();
+            if(!$cnDB)
+                return false;
+            else {
+                $cSQL = "INSERT INTO reg_time";
+                $cSQL .= " (nProjectID, dRegistration, dTime, tComments) VALUES (";
+                $cSQL .= $pnProjectID . ", ";
+                $cSQL .= "'" . $pdRegistration . "', ";
+                $cSQL .= "'" . $pdRegTime . "', ";
+                $cSQL .= "'" . $cnDB->real_escape_string($pcComments) . "')";
+
+                $bOk = $cnDB->query($cSQL);                
+                $this->bDisconnect($cnDB);
+
+                return($bOk);
+            }
+        }
+
+        // Updates all values of the registered time whose PK receives as first parameter
+        function bUpdate($pnRegTimeID, $pnProjectID, $pdRegDate, $pdTime, $pcComments){
+            $cnDB = $this->dbConnect();
+            if(!$cnDB)
+                return false;
+            else {
+                $cSQL = "UPDATE reg_time";
+                $cSQL .= " SET nProjectID = " . $pnProjectID;
+                $cSQL .= ", dRegistration = '" . $pdRegDate . "'";
+                $cSQL .= ", dTime = '" . $pdTime . "'";
+                $cSQL .= ", tComments = '" . $cnDB->real_escape_string($pcComments) . "'";
+                $cSQL .= " WHERE nRegTimeID = " . $pnRegTimeID;
+
+                $bOk = $cnDB->query($cSQL);                
+                $this->bDisconnect($cnDB);
+
+                return($cSQL);
+            }
+        }
+
+        // Deletes the registered time whose PK receives as a parameter. Return values:
+        // 0 Error / 1 Success 
+        function nDelete($pnRegTimeID){
+            define("RET_ERROR", 0);
+            define("RET_OK", 1);
+
+            $cnDB = $this->dbConnect();
+            if(!$cnDB)
+                return false;
+            else {
+                $cSQL = "DELETE FROM reg_time";
+                $cSQL .= " WHERE nRegTimeID = " . $pnRegTimeID;
+
+                if($cnDB->query($cSQL))
+                    $nResult = RET_OK;
+                else
+                    $nResult = RET_ERROR;                
+
+                $this->bDisconnect($cnDB);
+                return($nResult);
+            }
+        }        
+    }      
 ?>

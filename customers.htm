@@ -30,7 +30,7 @@
     
     <!-- Here the list of customers is loaded -->
     <div class="container">
-        <div class="row row-content btn-row">
+        <div class="row row-content top-spc-row">
             <button type="button" class="btn btn-success" 
                 data-toggle="modal" data-target="#modalCustomers" 
                 onClick="FCustomerInit()">New Customer</button>
@@ -64,7 +64,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="src/main.php">
+                    <form method="POST" action="#">
                         <div class="form-group row align-items-center">
                             <input type="text" id="txtCustomerID" name="txtCustomerID" value="NEW" hidden /> 
                             <label for="txtCVR" class="col-2 col-form-label">CVR</label>
@@ -106,8 +106,8 @@
                                 id="txtEmail" name="txtEmail" maxlength="255" size="60" /></div>
                         </div>
                         <div class="col-4 col-xs-8">
-                            <button role="button" class="btn btn-primary" role="submit">Ok</a>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-primary" id="submit">Ok</a>
+                            <button type="button" class="btn btn-default" id="dismiss" data-dismiss="modal">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -124,6 +124,7 @@
             $("#footer").load("footer.htm");
             FGetAllCustomers();         // Customers are loaded in the table
             FGetAllCountriesToCmb();    // Countries are loaded in the countries comboBox
+            FSubmitCustomer();          // This function handles the modal form submit
         });
    </script>
 </body>

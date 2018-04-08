@@ -19,7 +19,7 @@
         The text of this hidden id will be retrieved in nav.htm in order to assign 
         the class "active" to the appropriate menu option 
     --> 
-    <div id="page" hidden>Projects</div>
+    <div id="page" hidden>Registered Time</div>
 
     <!--    
         Header, nav, and footer will be loaded from their respective pages via jQuery 
@@ -28,68 +28,89 @@
     <div id="header"></div>
     <div id="nav"></div>
     
-    <!-- Here the list of projects is loaded -->
+    <!-- Here the list of registered times is loaded -->
     <div class="container">
         <div class="row row-content top-spc-row">
             <button type="button" class="btn btn-success" 
-                data-toggle="modal" data-target="#modalProjects" 
-                onClick="FProjectInit()">New Project</button>
+                data-toggle="modal" data-target="#modalRegTimes" 
+                onClick="FRegTimeInit()">New Registered Time</button>
         </div>
-        <div class="row top-spc-row cmb-row">
+        <div class="row cmb-row top-spc-row cmb-row">
             <label for="cmbCustomerList" class="col-1 col-form-label">Customer</label>
+            <!--
+                cmbCustomerList.onChange() does two things:
+                1. Loading the selected customer's projects in cmbProjectList
+                2. Loading all time registrations for all the customer's projects in the table 
+            -->
             <div class="col"><select class="form-control" 
-                name="cmbCustomerList" id="cmbCustomerList" onChange="FFilterProjects();"></select></div>
+                name="cmbCustomerList" id="cmbCustomerList" 
+                onChange="FGetCustomerProjectsToCmb(this.value, 'cmbProjectList');FLoadRegTimes(this.value, true)"></select></div>
         </div>
+        <div class="row cmb-row">
+            <label for="cmbProjectList" class="col-1 col-form-label">Project</label>
+            <!--
+                cmbProjectList.onChange() checks the following: 
+                    if "<All Projects>" (value 0) has been selected, 
+                        FLoadRegTimes() will receive cmbCustomerList's value in order to load in the table
+                        all registered times for all projects of the current customer 
+                    if a project has been selected, FLoadRegTimes() will receive the project's value
+                        in order to load the project's registered times only
+            -->
+            <div class="col"><select class="form-control" 
+                        name="cmbProjectList" id="cmbProjectList" 
+                        onChange="(this.value == 0 ? FLoadRegTimes(document.getElementById('cmbCustomerList').value, true) : FLoadRegTimes(this.value, false));">
+                    <option value="0">&lt;All Projects&gt;</option>
+                </select></div>
+        </div>    
         <div class="row row-content tab-row">
             <table>
                 <thead>
                     <tr>
-                        <th>Customer Name</th>
-                        <th>Project Name</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
+                        <th>Project</th>
+                        <th>Reg. Date</th>
+                        <th>Time</th>
+                        <th>Comments</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody id="content">
-                    <!-- <div class="col" id="content"></div> -->
-                </tbody>
+                <tbody id="content"></tbody>
             </table>
         </div>
     </div>
 
     <div id="footer"></div>
 
-    <!-- Modal containing the project form -->
-    <div id="modalProjects" class="modal fade" role="dialog">
+    <!-- Modal containing the registered time form -->
+    <div id="modalRegTimes" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg" role="content">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 id="modalCaption">Update Project</h4>
+                    <h4 id="modalCaption">Update Registered Time</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form method="POST">
                         <div class="form-group row align-items-center">
-                            <input type="text" id="txtProjectID" name="txtProjectID" value="NEW" hidden /> 
+                            <input type="text" id="txtRegTimeID" name="txtRegTimeID" value="NEW" hidden /> 
                             <label for="cmbCustomers" class="col-2 col-form-label">Customer</label>
                             <div class="col"><select class="form-control" 
-                                name="cmbCustomers" id="cmbCustomers"></select></div>
+                                name="cmbCustomers" id="cmbCustomers"
+                                onChange="FGetCustomerProjectsToCmb(this.value, 'cmbProjects');"></select></div>
                         </div>
                         <div class="form-group row align-items-center">
-                            <label for="txtName" class="col-2 col-form-label">Name</label>
-                            <div class="col"><input type="text" class="form-control" 
-                                id="txtName" name="txtName" maxlength="40" size="40" required /></div>
-                        </div>
+                            <label for="cmbProjects" class="col-2 col-form-label">Project</label>
+                            <div class="col"><select class="form-control" 
+                                name="cmbProjects" id="cmbProjects"></select></div>
+                        </div>    
                         <div class="form-group row align-items-center">
-                            <label for="txtStartDate" class="col-2 col-form-label">Start Date</label>
+                            <label for="txtRegDate" class="col-2 col-form-label">Reg. Date</label>
                             <div class="col"><input type="date" class="form-control" 
-                                id="txtStartDate" name="txtStartDate" required /></div>
+                                id="txtRegDate" name="txtRegDate" required /></div>
                         </div>
                         <div class="form-group row align-items-center">
-                            <label for="txtEndDate" class="col-2 col-form-label">End Date</label>
-                            <div class="col"><input type="date" class="form-control" 
-                                id="txtEndDate" name="txtEndDate" /></div>
+                            <label for="txtRegTime" class="col-2 col-form-label">Reg. Time</label>
+                            <div class="col"><input type="time" class="form-control" 
+                                id="txtRegTime" name="txtRegTime" required /></div>
                         </div>
                         <div class="row txt-area">
                             <label for="txtComments" class="col-2 col-form-label">Comments</label>
@@ -97,8 +118,8 @@
                                 rows="4" cols="50"></textarea></div>
                         </div>
                         <div class="col-4 col-xs-8">
-                            <a role="button" id="submit" class="btn btn-primary">Ok</a>
-                            <button id="dismiss" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-primary" id="submit">Ok</a>
+                            <button type="button" id="dismiss" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -113,10 +134,9 @@
             $("#header").load("header.htm");
             $("#nav").load("nav.htm");
             $("#footer").load("footer.htm");
-            FGetAllProjects();          // Projects are loaded in the table
             FGetAllCustomersToCmb();    // Customers are loaded in both customers' comboBoxes
                                         // (in the search page and in the modal form)
-            FSubmitProject();           // This function handles the modal form submit
+            FSubmitRegTime();           // This function handles the modal form submit
         });
    </script>
 </body>
