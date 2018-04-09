@@ -1,12 +1,18 @@
 <?php
-    /*
-        It represents a connection to the ptm database
-
-        Author: Arturo Mora-Rioja
-        Date: 6/4/2018
-    */
+/**
+ * Encapsulates a connection to the ptm database 
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   6/4/2018
+ */
     class DB {
-        public function dbConnect() {
+
+    /**
+     * Opens a connection to the ptm database
+     * 
+     * @returns a connection object
+     */
+    public function dbConnect() {
             $cServer = "localhost";
             $cDB = "ptm";
             $cUser = "ptm_user";
@@ -20,7 +26,12 @@
                 return($cnDB);   
         }
 
-        public function bDisconnect($pcnDB) {
+    /**
+     * Closes a connection to the ptm database
+     * 
+     * @param the connection object to disconnect
+     */
+    public function bDisconnect($pcnDB) {
             return(mysqli_close($pcnDB));
         }
     }
