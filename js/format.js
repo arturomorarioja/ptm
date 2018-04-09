@@ -1,8 +1,12 @@
 /**
- * Formats a time string ("hh:mm:ss") into a ("hh\h mm'") format
+ * Time-related format functions
  * 
  * @author Arturo Mora-Rioja
  * @date   8/4/2018
+ */
+
+/**
+ * Formats a time string ("hh:mm:ss") into a ("hh\h mm'") format
  * 
  * @param  time string
  * @return formatted string
@@ -15,9 +19,6 @@ function FcFormatTime(pcTime){
  * Converts a time string ("hh:mm:ss") to minutes.
  * It ignores the seconds.
  * 
- * @author Arturo Mora-Rioja
- * @date   8/4/2018
- * 
  * @param  time string
  * @return number of minutes
  */
@@ -27,9 +28,6 @@ function FnTimeToMinutes(pcTime){
 
 /**
  * Formats a number of minutes into a ("hh\h mm'") format
- * 
- * @author Arturo Mora-Rioja
- * @date   8/4/2018
  * 
  * @param  number of minutes
  * @return formatted string

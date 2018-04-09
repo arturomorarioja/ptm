@@ -1,8 +1,12 @@
 /**
- * Loads all customers in the customers page tbody
+ * js functions for the Project Time Manager application 
  * 
  * @author Arturo Mora-Rioja
- * @date   7/4/2018
+ * @date   7-9/4/2018
+ */
+
+/**
+ * Loads all customers in the customers page tbody
  */
 function FGetAllCustomers(){
     $.ajax({
@@ -38,9 +42,6 @@ function FGetAllCustomers(){
 /**
  * Loads all customers in the customers comboBox 
  * either in the projects page or in the registered time page
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  */
 function FGetAllCustomersToCmb(){
     $.ajax({
@@ -72,9 +73,6 @@ function FGetAllCustomersToCmb(){
 
 /**
  * Loads the data of a customer in the modal form of the customers page
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  * 
  * @param  id of the customer whose data will be retrieved
  */
@@ -109,9 +107,6 @@ function FGetCustomer(pnCustomerID){
 
 /**
  * Initialises the customer modal form in the customers page
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  */
 function FCustomerInit(){
     document.getElementById("modalCaption").innerHTML = "New Customer";
@@ -129,9 +124,6 @@ function FCustomerInit(){
 
 /**
  * Submits the customer form in the customers page
- * 
- * @author Arturo Mora-Rioja
- * @date   8/4/2018
  */
 function FSubmitCustomer(){
     $("a#submit").click(function(btn){
@@ -167,9 +159,6 @@ function FSubmitCustomer(){
  * Deletes a customer.
  * If there is a referential integrity problem (the customer has projects), an alert will be displayed
  * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
- * 
  * @param  id of the customer to delete
  */
 function FDeleteCustomer(pnCustomerID){
@@ -198,9 +187,6 @@ function FDeleteCustomer(pnCustomerID){
 
 /**
  * Loads all countries in the customers page's countries combo
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  */
 function FGetAllCountriesToCmb(){
     $.ajax({
@@ -212,11 +198,11 @@ function FGetAllCountriesToCmb(){
             var COUNTRY_NAME = 1;
             var acCountries = JSON.parse(data);
             var cCountries = "";
-
+            
             $.each(acCountries, function(nIndex, xValue) {
-                cCountries += "<option value='" + xValue[COUNTRY_ID] + "'>" + xValue[COUNTRY_NAME] + "</option>";
+                cCountries += "<option value='" + xValue[COUNTRY_ID] + "'>" 
+                    + xValue[COUNTRY_NAME] + "</option>";
             });
-
             document.getElementById("cmbCountries").innerHTML = cCountries;
         }
     });
@@ -224,9 +210,6 @@ function FGetAllCountriesToCmb(){
 
 /**
  * Loads all projects in the projects page tbody
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  */
 function FGetAllProjects(){
     $.ajax({
@@ -264,9 +247,6 @@ function FGetAllProjects(){
 /**
  * Hides from the projects' page table the projects not belonging 
  * to the customer selected in the customers' combo 
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  */
 function FFilterProjects(){
     nIndex = document.getElementById("cmbCustomerList").selectedIndex;
@@ -288,9 +268,6 @@ function FFilterProjects(){
 
 /**
  * Loads a customer's projects in a combo
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  * 
  * @param id of the customer whose projects will be loaded
  * @param id of the combo where the projects will be loaded
@@ -326,9 +303,6 @@ function FGetCustomerProjectsToCmb(pnCustomerID, pcComboId, pnSelectedValue){
 /**
  * Loads the data of a project in the modal form of the projects page
  * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
- * 
  * @param  id of the project whose data will be retrieved
  */
 function FGetProject(pnProjectID){
@@ -356,9 +330,6 @@ function FGetProject(pnProjectID){
 
 /**
  * Initialises the project modal form in the projects page
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  */
 function FProjectInit(){
     document.getElementById("modalCaption").innerHTML = "New Project";
@@ -372,9 +343,6 @@ function FProjectInit(){
 
 /**
  * Submits the project form in the projects page
- * 
- * @author Arturo Mora-Rioja
- * @date   8/4/2018
  */
 function FSubmitProject(){
     $("a#submit").click(function(btn){
@@ -403,9 +371,6 @@ function FSubmitProject(){
 /**
  * Deletes a project.
  * If there is a referential integrity problem (the project has registered times), an alert will be displayed
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  * 
  * @param  id of the project to delete
  */
@@ -436,9 +401,6 @@ function FDeleteProject(pnProjectID){
 /**
  * Loads in the registered times page tbody the registered times for a customer or project.
  * It also displays below the table the sum of registered times.
- * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
  * 
  * @param id of the customer or project (see below)
  * @param if true, the 1st parameter belongs to a customer / if false, the 1st parameter belongs to a project
@@ -488,9 +450,6 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
 /**
  * Loads the data of a registered time in the modal form of the registered times page
  * 
- * @author Arturo Mora-Rioja
- * @date   7/4/2018
- * 
  * @param  id of the registered time whose data will be retrieved
  */
 function FGetRegTime(pnRegTimeID){
@@ -521,9 +480,6 @@ function FGetRegTime(pnRegTimeID){
 
 /**
  * Initialises the registered times modal form in the registered times page
- * 
- * @author Arturo Mora-Rioja
- * @date   8/4/2018
  */
 function FRegTimeInit(){
     document.getElementById("modalCaption").innerHTML = "New Registered Time";
@@ -539,9 +495,6 @@ function FRegTimeInit(){
 /**
  * Reloads registered times in the registered times page's table 
  * after a registered time has been submitted or deleted
- * 
- * @author Arturo Mora-Rioja
- * @date   9/4/2018
  */
 function FReloadRegTimes(){
     // Registered times are reloaded based on the current filter (by customer or by project)
@@ -557,9 +510,6 @@ function FReloadRegTimes(){
 
 /**
  * Submits the registered time form in the registered time page
- * 
- * @author Arturo Mora-Rioja
- * @date   8/4/2018
  */
 function FSubmitRegTime(){
     $("a#submit").click(function(btn){
@@ -588,9 +538,6 @@ function FSubmitRegTime(){
 
 /**
  * Deletes a registered time
- * 
- * @author Arturo Mora-Rioja
- * @date   8/4/2018
  * 
  * @param  id of the registered time to delete
  */

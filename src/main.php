@@ -1,11 +1,11 @@
 <?php
-    /**
-     * This file serves as an entry point to the server code.
-     * A series of POST values inform about which PHP class and method to invoke.
-     * 
-     * @author Arturo Mora-Rioja
-     * @date   7/4/2018 
-     */
+/**
+ * This file serves as an entry point to the server code.
+ * A series of POST values inform about which PHP class and method to invoke.
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018 
+ */
     include("classes.php");
 
     $oCustomer = new Customer();

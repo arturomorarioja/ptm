@@ -4,21 +4,6 @@ body {
   background-color: #517FFF;
 }
 
-h1 {
-  text-align: left;
-}
-
-a {
-  font-family: Arial, Helvetica, sans-serif;
-  text-decoration: none;
-  color: #DDDD88;
-  font-weight: bold;
-}
-
-a:hover {
-  color: floralwhite;
-}
-
 header {
   margin: 0px;
   padding: 10px 10px 10px 10px;
@@ -26,30 +11,8 @@ header {
   background-color: #512FFF;
 }
 
-.nav {
-  margin: 0px;
-}
-
 .navbar-inverse {
   background-color: #512DA8;
-}
-
-#background {
-  width: 100%;
-  height: 100%;
-}
-
-#body {
-  margin-bottom: 100px;
-}
-
-#content {
-  margin-bottom: 90px;
-}
-
-#cover {
-  text-align: center;
-  margin-top: 20px;
 }
 
 footer {
@@ -60,10 +23,6 @@ footer {
   color: floralwhite;
   background-color: #512FFF;
   text-align: center;
-}
-
-li {
-  padding-right: 20px;
 }
 
 table {
@@ -84,8 +43,8 @@ th.sortable {
   cursor: cell;
 }
 
-td {
-  background-color: floralwhite;
+tbody#content {
+  margin-bottom: 90px;
 }
 
 tr {
@@ -98,48 +57,80 @@ tr:hover td {
   cursor: zoom-in;
 }
 
-.modal-header {
+td {
+  background-color: floralwhite;
+}
+
+td.td-del {
+  width: 20px;
+  text-align: center;
+}
+
+div#body {
+  margin-bottom: 100px;
+}
+
+div#cover {
+  text-align: center;
+  margin-top: 20px;
+}
+
+div.modal-header {
   color: floralwhite;
   background-color: #512FFF;
+}
+
+div.form-group {
+  height: 1.4em;
+}
+
+div.top-spc-row {
+  margin-top: 10px;
+}
+
+div.cmb-row {
+  background-color: #AEAEF0;
+}
+
+div.tab-row {
+  background-color: #AEAEF0;
+}
+
+div.txt-area {
+  margin-bottom: 5px;
+}
+
+h1 {
+  text-align: left;
+}
+
+li {
+  padding-right: 20px;
 }
 
 button {
   cursor: pointer;
 }
 
-.form-group {
-  height: 1.4em;
-}
-
-.top-spc-row {
-  margin-top: 10px;
-}
-
-.cmb-row {
-  background-color: #AEAEF0;
-}
-
-.tab-row {
-  background-color: #AEAEF0;
-}
-
-.td-del {
-  width: 20px;
-  text-align: center;
-}
-
-.btn-del {
+img.btn-del {
   border: solid thin black;
 }
 
-.btn-del:hover {
+img.btn-del:hover {
   cursor: pointer;
 }
 
-.txt-area {
-  margin-bottom: 5px;
+a {
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  color: #DDDD88;
+  font-weight: bold;
 }
 
-#submit {
+a:hover {
+  color: floralwhite;
+}
+
+a#submit {
   color: floralwhite;
 }

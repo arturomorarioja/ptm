@@ -1,12 +1,19 @@
 <?php
+/**
+ * Classes for the Project Time Manager application: 
+ * - Customer
+ * - Country
+ * - Project
+ * - RegTime
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   6-7/4/2018
+ */
     include("connection.php");
 
     /**
      * Encapsulates the customers. 
      * Takes care of the corresponding queries, inserts, updates, and deletes
-     *
-     * @author Arturo Mora-Rioja
-     * @date   6/4/2018
      */
     class Customer extends DB {
 
@@ -174,9 +181,6 @@
 
     /**
      * Encapsulates the countries. Allows their being queried
-     * 
-     * @author Arturo Mora-Rioja
-     * @date   7/4/2018
      */
     class Country extends DB {
 
@@ -210,9 +214,6 @@
     /**
      * Encapsulates the projects. 
      * Takes care of the corresponding queries, inserts, updates, and deletes
-     *
-     * @author Arturo Mora-Rioja
-     * @date   7/4/2018
      */
     class Project extends DB {
         /**
@@ -395,9 +396,6 @@
     /**
      * Encapsulates the registered times. 
      * Takes care of the corresponding queries, inserts, updates, and deletes
-     *
-     * @author Arturo Mora-Rioja
-     * @date   7/4/2018
      */
     class RegTime extends DB {
     
