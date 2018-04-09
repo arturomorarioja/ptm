@@ -1,9 +1,9 @@
-/*
-    Loads all customers
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Loads all customers in the customers page tbody
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ */
 function FGetAllCustomers(){
     $.ajax({
         url: "src/main.php",
@@ -21,6 +21,7 @@ function FGetAllCustomers(){
             $.each(acCustomers, function(nIndex, xValue) {
                 cModal = " data-toggle='modal' data-target='#modalCustomers'"
                     + " onClick='FGetCustomer(" + xValue[CUSTOMER_ID] + ")'";
+
                 cCustomers += ("<tr><td" + cModal + ">" 
                     + xValue[CVR] + "</td><td" + cModal + ">" 
                     + xValue[NAME] + "</td><td" + cModal + ">" 
@@ -34,12 +35,13 @@ function FGetAllCustomers(){
     });
 }
 
-/*
-    Loads all customers in the customers comboBoxes in projects.htm and reg_times.htm
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Loads all customers in the customers comboBox 
+ * either in the projects page or in the registered time page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ */
 function FGetAllCustomersToCmb(){
     $.ajax({
         url: "src/main.php",
@@ -68,12 +70,14 @@ function FGetAllCustomersToCmb(){
     });
 }
 
-/*
-    Calls the php code that retrieves data corresponding to the customer whose PK receives as a parameter
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Loads the data of a customer in the modal form of the customers page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ * 
+ * @param  id of the customer whose data will be retrieved
+ */
 function FGetCustomer(pnCustomerID){
     $.ajax({
         url: "src/main.php",
@@ -103,12 +107,12 @@ function FGetCustomer(pnCustomerID){
     });
 }
 
-/*
-    Initialises the customer modal form
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Initialises the customer modal form in the customers page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ */
 function FCustomerInit(){
     document.getElementById("modalCaption").innerHTML = "New Customer";
     document.getElementById("txtCustomerID").value = "NEW";
@@ -123,46 +127,15 @@ function FCustomerInit(){
     document.getElementById("cmbCountries").value = "DNK";
 }
 
-/*
-    Deletes the customer whose PK receives as a parameter
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
-function FDeleteCustomer(pnCustomerID){
-    if(window.confirm("The customer will be deleted. Are you sure?"))
-        $.ajax({
-            url: "src/main.php",
-            type: "POST",
-            data: {cElement: "Customer-Delete", nCustomerID: pnCustomerID},
-            success: function(data){
-                var RET_ERROR = 0;
-                var RET_OK = 1;
-                var RET_REFERENTIAL_INTEGRITY = 2;
-                var nResult = JSON.parse(data);
-
-                switch(nResult){
-                    case RET_ERROR:
-                        alert("The customer could not be deleted"); break;
-                    case RET_OK:
-                        location.reload(); break;
-                    case RET_REFERENTIAL_INTEGRITY:
-                        alert("The customer cannot be deleted, because it has projects assigned."); break;
-                } 
-                alert(result);
-            }
-        });
-}
-
-/*
-    Submits the customer form
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
+/**
+ * Submits the customer form in the customers page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   8/4/2018
+ */
 function FSubmitCustomer(){
     $("a#submit").click(function(btn){
-        btn.preventDefault();
+        btn.preventDefault();   // By preventing the submit action, navigation will stay in the current page
 
         data = {
             txtCustomerID: $("input#txtCustomerID").val(),
@@ -184,18 +157,51 @@ function FSubmitCustomer(){
         if(data.txtTown == ""){ alert("Town cannot be empty"); return; }
 
         $.post("src/main.php", data, function(d){
-            $("button#dismiss").click();
-            FGetAllCustomers();
+            $("button#dismiss").click();    // The customer form is hidden
+            FGetAllCustomers();             // Customers are reloaded in the table
         });
     });
 }
 
-/*
-    Loads all countries in the country comboBox
+/**
+ * Deletes a customer.
+ * If there is a referential integrity problem (the customer has projects), an alert will be displayed
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ * 
+ * @param  id of the customer to delete
+ */
+function FDeleteCustomer(pnCustomerID){
+    if(window.confirm("The customer will be deleted. Are you sure?"))
+        $.ajax({
+            url: "src/main.php",
+            type: "POST",
+            data: {cElement: "Customer-Delete", nCustomerID: pnCustomerID},
+            success: function(data){
+                var RET_ERROR = 0;
+                var RET_OK = 1;
+                var RET_REFERENTIAL_INTEGRITY = 2;
+                var nResult = JSON.parse(data);
 
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+                switch(nResult){
+                    case RET_ERROR:
+                        alert("The customer could not be deleted"); break;
+                    case RET_OK:
+                        location.reload(); break;
+                    case RET_REFERENTIAL_INTEGRITY:
+                        alert("The customer cannot be deleted, because it has projects assigned."); break;
+                } 
+            }
+        });
+}
+
+/**
+ * Loads all countries in the customers page's countries combo
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ */
 function FGetAllCountriesToCmb(){
     $.ajax({
         url: "src/main.php",
@@ -216,28 +222,12 @@ function FGetAllCountriesToCmb(){
     });
 }
 
-/*
-    Initialises the project modal
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
-function FProjectInit(){
-    document.getElementById("modalCaption").innerHTML = "New Project";
-    document.getElementById("txtProjectID").value = "NEW";
-    document.getElementById("txtName").value = "";
-    document.getElementById("cmbCustomers").selectedIndex = 0;
-    document.getElementById("txtStartDate").value = "";
-    document.getElementById("txtEndDate").value = "";
-    document.getElementById("txtComments").value = "";
-}
-
-/*
-    Loads all projects
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Loads all projects in the projects page tbody
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ */
 function FGetAllProjects(){
     $.ajax({
         url: "src/main.php",
@@ -265,104 +255,82 @@ function FGetAllProjects(){
                     + " onClick='FDeleteProject(" + xValue[PROJECT_ID] + ")' /></td></tr>");
             });
             document.getElementById("content").innerHTML = cProjects;
-            FFilterProjects();  // If a customer is selected, only its projects will appear
+            FFilterProjects();  // If a customer is selected, only its projects will be displayed
         }
     });
    
 }
 
-/*
-    Filters the projects on the page table according to the selected customer
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Hides from the projects' page table the projects not belonging 
+ * to the customer selected in the customers' combo 
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ */
 function FFilterProjects(){
     nIndex = document.getElementById("cmbCustomerList").selectedIndex;
     cCustomer = document.getElementById("cmbCustomerList").options[nIndex].innerHTML;
 
     aTrs = document.getElementsByTagName("tr");
     
-    Array.prototype.forEach.call(aTrs, function(trs) {
+    Array.prototype.forEach.call(aTrs, function(tr) {
         // If the "<All Customers>" option is selected, 
         // or the customer in the table row is the selected customer,
         // or the selected row has no id (it would be the header row),
         // the row will be displayed. Otherwise it will be hidden
-        if(cCustomer == "&lt;All Customers&gt;" || trs.id == cCustomer || trs.id == "")
-            trs.style.display = "table-row";
+        if(cCustomer == "&lt;All Customers&gt;" || tr.id == cCustomer || tr.id == "")
+            tr.style.display = "table-row";
         else
-            trs.style.display = "none";
+            tr.style.display = "none";
     });
 }
 
-/*
-    Submits the project form
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
-function FSubmitProject(){
-    $("a#submit").click(function(btn){
-        btn.preventDefault();
-
-        data = {
-            txtProjectID: $("input#txtProjectID").val(),
-            txtName: $("input#txtName").val(),
-            cmbCustomers: $("select#cmbCustomers").val(),
-            txtStartDate: $("input#txtStartDate").val(),
-            txtEndDate: $("input#txtEndDate").val(),
-            txtComments: $("textarea#txtComments").val()
-        };
-
-        // Mandatory data check
-        if(data.txtName == ""){ alert("Name cannot be empty"); return; }
-        if(data.txtStartDate == ""){ alert("Start Date cannot be empty"); return; }
-
-        $.post("src/main.php", data, function(d){
-            $("button#dismiss").click();
-            FGetAllProjects();
-        });
-    });
-}
-
-/*
-    Loads the projects of the customer whose PK receives as first parameter
-    in the projects combo whose id receives as second parameter.
-    If the third parameter is set, it represents the value to have selected in the combo
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
-function FGetCustomerProjectsToCmb(pnCustomerID, pcComboId, pnValue){
+/**
+ * Loads a customer's projects in a combo
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ * 
+ * @param id of the customer whose projects will be loaded
+ * @param id of the combo where the projects will be loaded
+ * @param (optional) value of the project to leave as selected in the combo
+ */
+function FGetCustomerProjectsToCmb(pnCustomerID, pcComboId, pnSelectedValue){
     $.ajax({
         url: "src/main.php",
         type: "POST",
         data: {cElement: "Customer-Projects-Get", nCustomerID: pnCustomerID},
         success: function(data){
+            var PROJECT_ID = 0;
+            var PROJECT_NAME = 1;
             var acProjects = JSON.parse(data);
-            if(pcComboId == "cmbProjects")
+            // The projects combo in the form does not include an "<All Projects>" value
+            if(pcComboId == "cmbProjects")  
                 cProjects = "";
-            else
+            else    // The combo that filters projects for the table includes an "<All Projects>" value
                 cProjects = "<option value='0'>&lt;All Projects&gt;</option>";
 
             $.each(acProjects, function(nIndex, xValue) {
-                cProjects += "<option value='" + xValue[0] + "'>"
-                    + xValue[1] + "</option>";
+                cProjects += "<option value='" + xValue[PROJECT_ID] + "'>"
+                    + xValue[PROJECT_NAME] + "</option>";
             });
             document.getElementById(pcComboId).innerHTML = cProjects;
             
-            if(pnValue != null)
-                document.getElementById(pcComboId).value = pnValue;
+            if(pnSelectedValue != null)
+                document.getElementById(pcComboId).value = pnSelectedValue;
         }
     });
 }
 
-/*
-    Calls the php code that retrieves data corresponding to the customer whose PK receives as a parameter
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Loads the data of a project in the modal form of the projects page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ * 
+ * @param  id of the project whose data will be retrieved
+ */
 function FGetProject(pnProjectID){
     $.ajax({
         url: "src/main.php",
@@ -386,12 +354,61 @@ function FGetProject(pnProjectID){
     });
 }
 
-/*
-    Deletes the project whose PK receives as a parameter
+/**
+ * Initialises the project modal form in the projects page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ */
+function FProjectInit(){
+    document.getElementById("modalCaption").innerHTML = "New Project";
+    document.getElementById("txtProjectID").value = "NEW";
+    document.getElementById("txtName").value = "";
+    document.getElementById("cmbCustomers").selectedIndex = 0;
+    document.getElementById("txtStartDate").value = "";
+    document.getElementById("txtEndDate").value = "";
+    document.getElementById("txtComments").value = "";
+}
 
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Submits the project form in the projects page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   8/4/2018
+ */
+function FSubmitProject(){
+    $("a#submit").click(function(btn){
+        btn.preventDefault();   // By preventing the submit action, navigation will stay in the current page
+
+        data = {
+            txtProjectID: $("input#txtProjectID").val(),
+            txtName: $("input#txtName").val(),
+            cmbCustomers: $("select#cmbCustomers").val(),
+            txtStartDate: $("input#txtStartDate").val(),
+            txtEndDate: $("input#txtEndDate").val(),
+            txtComments: $("textarea#txtComments").val()
+        };
+
+        // Mandatory data check
+        if(data.txtName == ""){ alert("Name cannot be empty"); return; }
+        if(data.txtStartDate == ""){ alert("Start Date cannot be empty"); return; }
+
+        $.post("src/main.php", data, function(d){
+            $("button#dismiss").click();    // The project form is hidden   
+            FGetAllProjects();              // Projects are reloaded in the table
+        });
+    });
+}
+
+/**
+ * Deletes a project.
+ * If there is a referential integrity problem (the project has registered times), an alert will be displayed
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ * 
+ * @param  id of the project to delete
+ */
 function FDeleteProject(pnProjectID){
     if(window.confirm("The project will be deleted. Are you sure?"))
         $.ajax({
@@ -408,55 +425,24 @@ function FDeleteProject(pnProjectID){
                     case RET_ERROR:
                         alert("The project could not be deleted"); break;
                     case RET_OK:
-                        location.reload(); break;
+                        FGetAllProjects(); break;   // Projects are reloaded in the table
                     case RET_REFERENTIAL_INTEGRITY:
                         alert("The project cannot be deleted, because it has registered times assigned."); break;
                 } 
-                alert(result);
             }
         });
 }
 
-/*
-    Formats a time string ("hh:mm:ss") into a displayable format
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
-function FcFormatTime(pnTime){
-    return pnTime.substring(0, 2) + "h " + pnTime.substring(3, 5 ) + "'";
-}
-
-/*
-    It converts a time string ("hh:mm:ss") to its number of minutes, ignoring the seconds
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
-function FnTimeToMinutes(pcTime){
-    return parseInt(pcTime.substring(3, 5)) + parseInt(pcTime.substring(0,2) * 60);
-}
-
-/*
-    Formats a number of minutes into a displayable string
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
-function FcFormatMinutes(pnMinutes){
-    var nHours = parseInt(pnMinutes / 60);
-    var nRemainingMinutes = (pnMinutes - (nHours * 60));
-
-    return nHours.toString() + "h " + nRemainingMinutes.toString() + (nRemainingMinutes < 10 ? "0" : "") + "&apos;";
-}
-
-/*
-    Loads in the table the registered times for the customer or project whose PK it receives as first parameter.
-    If the second parameter is true, it is a customer PK, if it is false it is a project PK
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Loads in the registered times page tbody the registered times for a customer or project.
+ * It also displays below the table the sum of registered times.
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ * 
+ * @param id of the customer or project (see below)
+ * @param if true, the 1st parameter belongs to a customer / if false, the 1st parameter belongs to a project
+ */
 function FLoadRegTimes(pnValueID, pbIsCustomer){
     $.ajax({
         url: "src/main.php",
@@ -474,7 +460,8 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
 
             $.each(acRegTimes, function(nIndex, xValue) {
                 cModal = " data-toggle='modal' data-target='#modalRegTimes'"
-                    + " onClick='FGetRegTime(" + xValue[REG_TIME_ID] + ")'";                
+                    + " onClick='FGetRegTime(" + xValue[REG_TIME_ID] + ")'";    
+
                 cRegTimes += ("<tr id='" + xValue[REG_TIME_ID] + "'><td" + cModal + ">" 
                     + xValue[PROJECT_NAME] + "</td><td" + cModal + ">" 
                     + xValue[REG_DATE] + "</td><td" + cModal + ">" 
@@ -487,6 +474,7 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
             });
             document.getElementById("content").innerHTML = cRegTimes;
 
+            // The sum of registered times is displayed below the table
             var cTotal = "<div class='row row-content'>";
             cTotal += "<label for='txtTotal' class='col-form-label offset-1'>Total registered time</label>";
             cTotal += "<div class='col offset-2'><input type='text' class='form-control text-right'";
@@ -497,12 +485,14 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
     });
 }
 
-/*
-    Calls the php code that retrieves data corresponding to the registered time whose PK receives as a parameter
-
-    Author: Arturo Mora-Rioja
-    Date: 7/4/2018
-*/
+/**
+ * Loads the data of a registered time in the modal form of the registered times page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   7/4/2018
+ * 
+ * @param  id of the registered time whose data will be retrieved
+ */
 function FGetRegTime(pnRegTimeID){
     $.ajax({
         url: "src/main.php",
@@ -522,22 +512,58 @@ function FGetRegTime(pnRegTimeID){
             document.getElementById("txtRegTime").value = acProject[TIME];
             document.getElementById("txtComments").value = acProject[COMMENTS];
 
-            // The projects combo will be loaded based on the selected customer.
-            // The corresponding project will also be selected in the combo.
+            // The projects combo will be loaded based on the selected customer in the customers combo.
+            // The corresponding project will be set as selected in the projects combo.
             FGetCustomerProjectsToCmb(acProject[CUSTOMER_ID], 'cmbProjects', acProject[PROJECT_ID]);
         }
     });
 }
 
-/*
-    Submits the registered time form
+/**
+ * Initialises the registered times modal form in the registered times page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   8/4/2018
+ */
+function FRegTimeInit(){
+    document.getElementById("modalCaption").innerHTML = "New Registered Time";
+    document.getElementById("txtRegTimeID").value = "NEW";
+    document.getElementById("cmbCustomers").selectedIndex = 0;
+    // Initial load of the projects combo based on the customer selected by default
+    FGetCustomerProjectsToCmb(document.getElementById("cmbCustomers").value, "cmbProjects");
+    document.getElementById("txtRegDate").value = "";
+    document.getElementById("txtRegTime").value = "";
+    document.getElementById("txtComments").value = "";
+}
 
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
+/**
+ * Reloads registered times in the registered times page's table 
+ * after a registered time has been submitted or deleted
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   9/4/2018
+ */
+function FReloadRegTimes(){
+    // Registered times are reloaded based on the current filter (by customer or by project)
+    if(document.getElementById("cmbProjectList").value == 0){
+        nValue = document.getElementById("cmbCustomerList").value;
+        bIsCustomer = true;
+    } else {
+        nValue = document.getElementById("cmbProjectList").value;
+        bIsCustomer = false;
+    }
+    FLoadRegTimes(nValue, bIsCustomer);     
+}
+
+/**
+ * Submits the registered time form in the registered time page
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   8/4/2018
+ */
 function FSubmitRegTime(){
     $("a#submit").click(function(btn){
-        btn.preventDefault();
+        btn.preventDefault();   // By preventing the submit action, navigation will stay in the current page
 
         data = {
             txtRegTimeID: $("input#txtRegTimeID").val(),
@@ -554,42 +580,20 @@ function FSubmitRegTime(){
         if(data.txtRegTime == ""){ alert("Registered Time cannot be empty"); return; }
 
         $.post("src/main.php", data, function(d){
-            $("button#dismiss").click();
-            if(document.getElementById("cmbProjectList").value == 0){
-                nValue = document.getElementById("cmbCustomerList").value;
-                bIsCustomer = true;
-            } else {
-                nValue = document.getElementById("cmbProjectList").value;
-                bIsCustomer = false;
-            }
-            FLoadRegTimes(nValue, bIsCustomer);
+            $("button#dismiss").click();    // The customer form is hidden
+            FReloadRegTimes();              // Registered times are reloaded in the table
         });
     });
 }
 
-/*
-    Initialises the registered times modal
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
-function FRegTimeInit(){
-    document.getElementById("modalCaption").innerHTML = "New Registered Time";
-    document.getElementById("txtRegTimeID").value = "NEW";
-    document.getElementById("cmbCustomers").selectedIndex = 0;
-    // Initial load of the projects combo
-    FGetCustomerProjectsToCmb(document.getElementById("cmbCustomers").value, "cmbProjects");
-    document.getElementById("txtRegDate").value = "";
-    document.getElementById("txtRegTime").value = "";
-    document.getElementById("txtComments").value = "";
-}
-
-/*
-    Deletes the registered time whose PK receives as a parameter
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
+/**
+ * Deletes a registered time
+ * 
+ * @author Arturo Mora-Rioja
+ * @date   8/4/2018
+ * 
+ * @param  id of the registered time to delete
+ */
 function FDeleteRegTime(pnRegTimeID){
     if(window.confirm("The registered time will be deleted. Are you sure?"))
         $.ajax({
@@ -605,37 +609,8 @@ function FDeleteRegTime(pnRegTimeID){
                     case RET_ERROR:
                         alert("The registered time could not be deleted"); break;
                     case RET_OK:
-                        location.reload(); break;
+                        FReloadRegTimes(); break;   // Registered times are reloaded in the table
                 } 
-                alert(result);
             }
         });
-}
-
-/*
-    Sorts the tbody whose id it receives as first parameter 
-    by the column whose index it receives as second parameter
-
-    Author: Arturo Mora-Rioja
-    Date: 8/4/2018
-*/
-function FTableSort(pcTable, pnIndex){
-    var acTrs = document.getElementById(pcTable).getElementsByTagName("tr");
-    var acTds = [];
-    var cTableContent = "";
-
-    // An array is filled with all td values and indexes for the column to order.
-    for(nCount = 0; nCount < acTrs.length; nCount++)
-        acTds.push(acTrs[nCount].getElementsByTagName("td")[pnIndex].innerHTML + "||" + nCount.toString());
-
-    // The array is sorted based on content
-    acTds.sort();
-
-    for(nCount = 0; nCount < acTds.length; nCount++){
-        nIndex = parseInt(acTds[nCount].substring(acTds[nCount].indexOf("||") + 2));
-        cTableContent += "<tr>" + 
-            acTrs[nIndex].innerHTML
-            + "</tr>";
-    }
-    document.getElementById(pcTable).innerHTML = cTableContent;
 }

@@ -15,7 +15,7 @@
          * 
          * @return bidimensional array [customer row, column values] / false if there was any error 
          */
-        function aAllCustomers(){
+        function aSelectAll(){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;
@@ -42,7 +42,7 @@
          * @param  customer id
          * @return array [customer column values] / false if there was any error
          */
-        function aCustomer($pnCustomerID){
+        function aSelect($pnCustomerID){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;
@@ -185,7 +185,7 @@
          * 
          * @return bidimensional array [country row, column values] / false if there was any error
          */
-        function aAllCountries(){
+        function aSelectAll(){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;
@@ -220,7 +220,7 @@
          * 
          * @return bidimensional array [project row, column values] / false if there was any error 
          */
-        function aAllProjects(){
+        function aSelectAll(){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;
@@ -247,7 +247,7 @@
          * @param  id of the customer whose projects are to be retrieved
          * @return bidimensional array [project row, id and name] / false if there was any error
          */
-        function aProjectsByCustomer($pnCustomerID){
+        function aSelectByCustomer($pnCustomerID){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;
@@ -275,7 +275,7 @@
          * @param  project id
          * @return array [project column values] / false if there was any error
          */
-        function aProject($pnProjectID){
+        function aSelect($pnProjectID){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;
@@ -408,7 +408,7 @@
          * @param  if true, $pnValueID is a customer id / if false, $pnValueID is a project id
          * @return bidimensional array [registered time row, column values] / false if there was any error 
          */
-        function aRegTimes($pnValueID, $pbIsCustomer){
+        function aSelectByCustomerOrProject($pnValueID, $pbIsCustomer){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;
@@ -422,6 +422,7 @@
                     $cSQL .= " WHERE project.nCustomerID = " . $pnValueID;
                 else
                     $cSQL .= " WHERE reg_time.nProjectID = " . $pnValueID;
+                $cSQL .= " ORDER BY reg_time.dRegistration DESC";
 
                 $aQuery = $cnDB->query($cSQL);
                 while($rRow = $aQuery->fetch_row())
@@ -440,7 +441,7 @@
          * @param  registered time id
          * @return array [registered time column values] / false if there was any error
          */
-        function aRegTime($pnRegTimeID){
+        function aSelect($pnRegTimeID){
             $cnDB = $this->dbConnect();
             if(!$cnDB)
                 return false;

@@ -49,25 +49,25 @@
     } elseif(isset($_POST['cElement'])){
         switch($_POST['cElement']){
             case "Customers":               // Get all customers
-                echo json_encode($oCustomer->aAllCustomers()); break;
+                echo json_encode($oCustomer->aSelectAll()); break;
             case "Countries":               // Get all countries
-                echo json_encode($oCountry->aAllCountries()); break;
+                echo json_encode($oCountry->aSelectAll()); break;
             case "Customer-Get":            // Get the data of a specific customer
-                echo json_encode($oCustomer->aCustomer($_POST['nCustomerID'])); break;
+                echo json_encode($oCustomer->aSelect($_POST['nCustomerID'])); break;
             case "Customer-Delete":         // Delete a specific customer
                 echo json_encode($oCustomer->nDelete($_POST['nCustomerID'])); break;
             case "Projects":                // Get all projects
-                echo json_encode($oProject->aAllProjects()); break;
+                echo json_encode($oProject->aSelectAll()); break;
             case "Project-Get":             // Get the data of a specific project 
-                echo json_encode($oProject->aProject($_POST['nProjectID'])); break;
+                echo json_encode($oProject->aSelect($_POST['nProjectID'])); break;
             case "Project-Delete":          // Delete a specific project
                 echo json_encode($oProject->nDelete($_POST['nProjectID'])); break;
             case "Customer-Projects-Get":   // Get the projects of a specific customer
-                echo json_encode($oProject->aProjectsByCustomer($_POST['nCustomerID'])); break;
+                echo json_encode($oProject->aSelectByCustomer($_POST['nCustomerID'])); break;
             case "RegTimes-Get":            // Get the registered times of a specific customer or project
-                echo json_encode($oRegTime->aRegTimes($_POST['nValueID'], $_POST['bIsCustomer'])); break; 
+                echo json_encode($oRegTime->aSelectByCustomerOrProject($_POST['nValueID'], $_POST['bIsCustomer'])); break; 
             case "RegTime-Get":             // Get the data of a specific registered time
-                echo json_encode($oRegTime->aRegTime($_POST['nRegTimeID'])); break;
+                echo json_encode($oRegTime->aSelect($_POST['nRegTimeID'])); break;
             case "RegTime-Delete":          // Delete a specific registered time
                 echo json_encode($oRegTime->nDelete($_POST['nRegTimeID'])); break;
         }
