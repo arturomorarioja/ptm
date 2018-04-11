@@ -259,9 +259,10 @@ function FFilterProjects(){
         // or the customer in the table row is the selected customer,
         // or the selected row has no id (it would be the header row),
         // the row will be displayed. Otherwise it will be hidden
-        if(cCustomer == "&lt;All Customers&gt;" || tr.id == cCustomer || tr.id == "")
+        if(cCustomer == "&lt;All Customers&gt;" || tr.id == cCustomer || tr.id == ""){
             tr.style.display = "table-row";
-        else
+//alert("cCustomer [" + cCustomer + "]. tr.id [" + tr.id + "]");
+        } else
             tr.style.display = "none";
     });
 }

@@ -16,7 +16,7 @@
             $cServer = "localhost";
             $cDB = "ptm";
             $cUser = "ptm_user";
-            $cPwd = "reviso";
+            $cPwd = "ptm_pwd";
 
             $cnDB = @new mysqli($cServer, $cUser, $cPwd, $cDB); 
             if ($cnDB->connect_error) {

@@ -10,6 +10,7 @@
 function FTableSort(pcTable, pnIndex){
     var acTrs = document.getElementById(pcTable).getElementsByTagName("tr");
     var acTds = [];
+    var acVisibility = [];
     var cTableContent = "";
 
     // An array is filled with all <td> values and indexes for the column to order.
@@ -22,9 +23,20 @@ function FTableSort(pcTable, pnIndex){
     // <tr>s are sorted based on the <td>s array
     for(nCount = 0; nCount < acTds.length; nCount++){
         nIndex = parseInt(acTds[nCount].substring(acTds[nCount].indexOf("||") + 2));
+        
         cTableContent += "<tr>" + 
             acTrs[nIndex].innerHTML
             + "</tr>";
+
+        // The id and visibility of each <tr> is stored in an array in the final sort order
+        acVisibility.push([acTrs[nIndex].id, acTrs[nIndex].style.display]);
     }
     document.getElementById(pcTable).innerHTML = cTableContent;
+
+    // id and visibility are restored to the <tr>s
+    acTrs = document.getElementById(pcTable).getElementsByTagName("tr");
+    for(nCount = 0; nCount < acVisibility.length; nCount++){
+        acTrs[nCount].id = acVisibility[nCount][0];
+        acTrs[nCount].style.display = acVisibility[nCount][1];
+    }
 }
