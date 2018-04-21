@@ -34,8 +34,8 @@ function FGetAllCustomers(){
                     + "<img src='img/delete.png' class='btn-del'" 
                     + " onClick='FDeleteCustomer(" + xValue[CUSTOMER_ID] + ")' /></td></tr>");
             });
-            document.getElementById("content").innerHTML = cCustomers;
-        }
+            $("#content").html(cCustomers);
+        }   
     });
 }
 
@@ -59,14 +59,14 @@ function FGetAllCustomersToCmb(){
                     "'>" + xValue[NAME] + "</option>";
             });
 
-            document.getElementById("cmbCustomers").innerHTML = cCustomers;
+            $("#cmbCustomers").html(cCustomers);
 
             // The search combo in reg_times.htm has a different element in its first position
             if(location.href.split("/").slice(-1) == "reg_times.htm")
                 cCustomers = "<option value='0'>&lt;Select Customer&gt;</option>" + cCustomers;
             else
                 cCustomers = "<option value='0'>&lt;All Customers&gt;</option>" + cCustomers;
-            document.getElementById("cmbCustomerList").innerHTML = cCustomers;
+            $("#cmbCustomerList").html(cCustomers);
         }
     });
 }
@@ -91,16 +91,17 @@ function FGetCustomer(pnCustomerID){
             var EMAIL = 6;
             var COUNTRY_ID = 7;
             var acCustomer = JSON.parse(data);
-            document.getElementById("modalCaption").innerHTML = "Update Customer";
-            document.getElementById("txtCustomerID").value = pnCustomerID;
-            document.getElementById("txtCVR").value = acCustomer[CVR];
-            document.getElementById("txtName").value = acCustomer[NAME];
-            document.getElementById("txtAddress").value = acCustomer[ADDRESS];
-            document.getElementById("txtPostCode").value = acCustomer[POST_CODE];
-            document.getElementById("txtTown").value = acCustomer[TOWN];
-            document.getElementById("txtPhone").value = acCustomer[PHONE];
-            document.getElementById("txtEmail").value = acCustomer[EMAIL];
-            document.getElementById("cmbCountries").value = acCustomer[COUNTRY_ID];
+
+            $("#modalCaption").html("Update Customer");
+            $("#txtCustomerID").val(pnCustomerID);
+            $("#txtCVR").val(acCustomer[CVR]);
+            $("#txtName").val(acCustomer[NAME]);
+            $("#txtAddress").val(acCustomer[ADDRESS]);
+            $("#txtPostCode").val(acCustomer[POST_CODE]);
+            $("#txtTown").val(acCustomer[TOWN]);
+            $("#txtPhone").val(acCustomer[PHONE]);
+            $("#txtEmail").val(acCustomer[EMAIL]);
+            $("#cmbCountries").val(acCustomer[COUNTRY_ID]);
         }
     });
 }
@@ -109,17 +110,16 @@ function FGetCustomer(pnCustomerID){
  * Initialises the customer modal form in the customers page
  */
 function FCustomerInit(){
-    document.getElementById("modalCaption").innerHTML = "New Customer";
-    document.getElementById("txtCustomerID").value = "NEW";
-    document.getElementById("txtCVR").value = "";
-    document.getElementById("txtName").value = "";
-    document.getElementById("txtAddress").value = "";
-    document.getElementById("txtPostCode").value = "";
-    document.getElementById("txtPhone").value = "";
-    document.getElementById("txtTown").value = "";
-    document.getElementById("txtPhone").value = "";
-    document.getElementById("txtEmail").value = "";
-    document.getElementById("cmbCountries").value = "DNK";
+    $("#modalCaption").html("New Customer");
+    $("#txtCustomerID").val("");
+    $("#txtCVR").val("");
+    $("#txtName").val("");
+    $("#txtAddress").val("");
+    $("#txtPostCode").val("");
+    $("#txtTown").val("");
+    $("#txtPhone").val("");
+    $("#txtEmail").val("");
+    $("#cmbCountries").val("DNK");
 }
 
 /**
@@ -203,7 +203,7 @@ function FGetAllCountriesToCmb(){
                 cCountries += "<option value='" + xValue[COUNTRY_ID] + "'>" 
                     + xValue[COUNTRY_NAME] + "</option>";
             });
-            document.getElementById("cmbCountries").innerHTML = cCountries;
+            $("#cmbCountries").html(cCountries);
         }
     });
 }
@@ -237,7 +237,7 @@ function FGetAllProjects(){
                     + "<img src='img/delete.png' class='btn-del'" 
                     + " onClick='FDeleteProject(" + xValue[PROJECT_ID] + ")' /></td></tr>");
             });
-            document.getElementById("content").innerHTML = cProjects;
+            $("#content").html(cProjects);
             FFilterProjects();  // If a customer is selected, only its projects will be displayed
         }
     });
@@ -249,22 +249,20 @@ function FGetAllProjects(){
  * to the customer selected in the customers' combo 
  */
 function FFilterProjects(){
-    nIndex = document.getElementById("cmbCustomerList").selectedIndex;
-    cCustomer = document.getElementById("cmbCustomerList").options[nIndex].innerHTML;
+    nIndex = $("#cmbCustomerList").val();
 
-    aTrs = document.getElementsByTagName("tr");
-    
-    Array.prototype.forEach.call(aTrs, function(tr) {
-        // If the "<All Customers>" option is selected, 
-        // or the customer in the table row is the selected customer,
-        // or the selected row has no id (it would be the header row),
-        // the row will be displayed. Otherwise it will be hidden
-        if(cCustomer == "&lt;All Customers&gt;" || tr.id == cCustomer || tr.id == ""){
-            tr.style.display = "table-row";
-//alert("cCustomer [" + cCustomer + "]. tr.id [" + tr.id + "]");
-        } else
-            tr.style.display = "none";
-    });
+    if(nIndex !== null){
+        cCustomer = $("option:eq(" + nIndex + ")").html();  // Name of the selected customer
+
+        for(nCount = 0; nCount < $("tr").length; nCount++){
+            nId = $("tr:eq(" + nCount + ")").attr("id");
+
+            if(cCustomer == "&lt;All Customers&gt;" || nId == cCustomer || nId == "")
+                $("tr:eq(" + nCount + ")").css("display", "table-row");
+            else
+                $("tr:eq(" + nCount + ")").css("display", "none");            
+        }
+    }
 }
 
 /**
@@ -289,14 +287,14 @@ function FGetCustomerProjectsToCmb(pnCustomerID, pcComboId, pnSelectedValue){
             else    // The combo that filters projects for the table includes an "<All Projects>" value
                 cProjects = "<option value='0'>&lt;All Projects&gt;</option>";
 
+            $("#" + pcComboId + " option").remove();    // The combo is emptied
+
             $.each(acProjects, function(nIndex, xValue) {
-                cProjects += "<option value='" + xValue[PROJECT_ID] + "'>"
-                    + xValue[PROJECT_NAME] + "</option>";
+                $("#" + pcComboId).append($("<option />").val(xValue[PROJECT_ID]).text(xValue[PROJECT_NAME]));
             });
-            document.getElementById(pcComboId).innerHTML = cProjects;
             
             if(pnSelectedValue != null)
-                document.getElementById(pcComboId).value = pnSelectedValue;
+                $("#" + pcComboId).val(pnSelectedValue);
         }
     });
 }
@@ -318,13 +316,13 @@ function FGetProject(pnProjectID){
             var END_DATE = 3;
             var COMMENTS = 4;
             var acProject = JSON.parse(data);
-            document.getElementById("modalCaption").innerHTML = "Update Project";
-            document.getElementById("txtProjectID").value = pnProjectID;
-            document.getElementById("cmbCustomers").value = acProject[CUSTOMER_ID];
-            document.getElementById("txtName").value = acProject[NAME];
-            document.getElementById("txtStartDate").value = acProject[START_DATE];
-            document.getElementById("txtEndDate").value = acProject[END_DATE];
-            document.getElementById("txtComments").value = acProject[COMMENTS];
+            $("#modalCaption").html("Update Project");
+            $("#txtProjectID").val(pnProjectID);
+            $("#cmbCustomers").val(acProject[CUSTOMER_ID]);
+            $("#txtName").val(acProject[NAME]);
+            $("#txtStartDate").val(acProject[START_DATE]);
+            $("#txtEndDate").val(acProject[END_DATE]);
+            $("#txtComments").val(acProject[COMMENTS]);
         }
     });
 }
@@ -333,13 +331,13 @@ function FGetProject(pnProjectID){
  * Initialises the project modal form in the projects page
  */
 function FProjectInit(){
-    document.getElementById("modalCaption").innerHTML = "New Project";
-    document.getElementById("txtProjectID").value = "NEW";
-    document.getElementById("txtName").value = "";
-    document.getElementById("cmbCustomers").selectedIndex = 0;
-    document.getElementById("txtStartDate").value = "";
-    document.getElementById("txtEndDate").value = "";
-    document.getElementById("txtComments").value = "";
+    $("#modalCaption").html("New Project");
+    $("#txtProjectID").val("NEW");
+    $("#txtName").val("");
+    $("#cmbCustomers").val(1);
+    $("#txtStartDate").val("");
+    $("#txtEndDate").val("");
+    $("#txtComments").val("");
 }
 
 /**
@@ -435,7 +433,7 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
 
                 nTotal += FnTimeToMinutes(xValue[TIME]);
             });
-            document.getElementById("content").innerHTML = cRegTimes;
+            $("#content").html(cRegTimes);
 
             // The sum of registered times is displayed below the table
             var cTotal = "<div class='row row-content'>";
@@ -443,7 +441,7 @@ function FLoadRegTimes(pnValueID, pbIsCustomer){
             cTotal += "<div class='col offset-2'><input type='text' class='form-control text-right'";
             cTotal += " value='" + FcFormatMinutes(nTotal) + "' disabled /></div>";
 
-            document.getElementById("total").innerHTML = cTotal;
+            $("#total").html(cTotal);
         }
     });
 }
@@ -465,12 +463,12 @@ function FGetRegTime(pnRegTimeID){
             var TIME = 3;
             var COMMENTS = 4;
             var acProject = JSON.parse(data);
-            document.getElementById("modalCaption").innerHTML = "Update Registered Time";
-            document.getElementById("txtRegTimeID").value = pnRegTimeID;
-            document.getElementById("cmbCustomers").value = acProject[CUSTOMER_ID];
-            document.getElementById("txtRegDate").value = acProject[REG_DATE];
-            document.getElementById("txtRegTime").value = acProject[TIME];
-            document.getElementById("txtComments").value = acProject[COMMENTS];
+            $("#modalCaption").html("Update Registered Time");
+            $("#txtRegTimeID").val(pnRegTimeID);
+            $("#cmbCustomers").val(acProject[CUSTOMER_ID]);
+            $("#txtRegDate").val(acProject[REG_DATE]);
+            $("#txtRegTime").val(acProject[TIME]);
+            $("#txtComments").val(acProject[COMMENTS]);
 
             // The projects combo will be loaded based on the selected customer in the customers combo.
             // The corresponding project will be set as selected in the projects combo.
@@ -483,14 +481,14 @@ function FGetRegTime(pnRegTimeID){
  * Initialises the registered times modal form in the registered times page
  */
 function FRegTimeInit(){
-    document.getElementById("modalCaption").innerHTML = "New Registered Time";
-    document.getElementById("txtRegTimeID").value = "NEW";
-    document.getElementById("cmbCustomers").selectedIndex = 0;
+    $("#modalCaption").html("New Registered Time");
+    $("#txtRegTimeID").val("NEW");
+    $("#cmbCustomers").val(1);
     // Initial load of the projects combo based on the customer selected by default
-    FGetCustomerProjectsToCmb(document.getElementById("cmbCustomers").value, "cmbProjects");
-    document.getElementById("txtRegDate").value = "";
-    document.getElementById("txtRegTime").value = "";
-    document.getElementById("txtComments").value = "";
+    FGetCustomerProjectsToCmb($("#cmbCustomers").val(), "cmbProjects");
+    $("#txtRegDate").val("");
+    $("#txtRegTime").val("");
+    $("#txtComments").val("");
 }
 
 /**
@@ -499,11 +497,11 @@ function FRegTimeInit(){
  */
 function FReloadRegTimes(){
     // Registered times are reloaded based on the current filter (by customer or by project)
-    if(document.getElementById("cmbProjectList").value == 0){
-        nValue = document.getElementById("cmbCustomerList").value;
+    if($("#cmbProjectList").val() == 0){
+        nValue = $("#cmbCustomerList").val();
         bIsCustomer = true;
     } else {
-        nValue = document.getElementById("cmbProjectList").value;
+        nValue = $("#cmbProjectList").val();
         bIsCustomer = false;
     }
     FLoadRegTimes(nValue, bIsCustomer);     

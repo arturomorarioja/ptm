@@ -1,9 +1,9 @@
-$background-dark: #512FFF;
-$background-light: #517FFF;
-$background-lighter: #AEAEF0;
-$background-pale: #518EFF;
+$background-dark: #0B3C5D;
+$background-light: #328CC1;
+$background-lighter: #D9B310;
+$background-btn: #30415D;
 $light: #DDDD88;
-$darker: #512DA8;
+$darker: #1D2731;
 
 // Page structure
 body {
@@ -125,4 +125,8 @@ a:hover {
 }
 a#submit {
     color: floralwhite; 
+}
+
+.btn-primary {
+    background: $background-btn;
 }

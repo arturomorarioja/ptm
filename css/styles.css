@@ -1,18 +1,18 @@
 body {
   margin: 0px;
   font-family: Verdana, Helvetica, Arial, sans-serif;
-  background-color: #517FFF;
+  background-color: #328CC1;
 }
 
 header {
   margin: 0px;
   padding: 10px 10px 10px 10px;
   color: floralwhite;
-  background-color: #512FFF;
+  background-color: #0B3C5D;
 }
 
 .navbar-inverse {
-  background-color: #512DA8;
+  background-color: #1D2731;
 }
 
 footer {
@@ -21,7 +21,7 @@ footer {
   width: 100%;
   padding: 5px;
   color: floralwhite;
-  background-color: #512FFF;
+  background-color: #0B3C5D;
   text-align: center;
 }
 
@@ -31,8 +31,8 @@ table {
 }
 
 thead {
-  color: #512DA8;
-  background-color: #AEAEF0;
+  color: #1D2731;
+  background-color: #D9B310;
 }
 
 th, td {
@@ -53,7 +53,7 @@ tr {
 
 tr:hover td {
   color: floralwhite;
-  background-color: #512FFF;
+  background-color: #0B3C5D;
   cursor: zoom-in;
 }
 
@@ -77,7 +77,7 @@ div#cover {
 
 div.modal-header {
   color: floralwhite;
-  background-color: #512FFF;
+  background-color: #0B3C5D;
 }
 
 div.form-group {
@@ -89,11 +89,11 @@ div.top-spc-row {
 }
 
 div.cmb-row {
-  background-color: #AEAEF0;
+  background-color: #D9B310;
 }
 
 div.tab-row {
-  background-color: #AEAEF0;
+  background-color: #D9B310;
 }
 
 div.txt-area {
@@ -133,4 +133,8 @@ a:hover {
 
 a#submit {
   color: floralwhite;
+}
+
+.btn-primary {
+  background: #30415D;
 }
