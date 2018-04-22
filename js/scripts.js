@@ -251,17 +251,20 @@ function FGetAllProjects(){
 function FFilterProjects(){
     nIndex = $("#cmbCustomerList").val();
 
-    if(nIndex !== null){
+    if(nIndex != null){
         cCustomer = $("option:eq(" + nIndex + ")").html();  // Name of the selected customer
 
-        for(nCount = 0; nCount < $("tr").length; nCount++){
-            nId = $("tr:eq(" + nCount + ")").attr("id");
-
-            if(cCustomer == "&lt;All Customers&gt;" || nId == cCustomer || nId == "")
-                $("tr:eq(" + nCount + ")").css("display", "table-row");
+        $("tr").each(function(index, value){
+            nId = $("tr:eq(" + index + ")").attr("id");
+            
+            // The table row is displayed if "<All Customers>" is selected,
+            // if the row belongs to the selected customer,
+            // or if it is the header row
+            if(cCustomer == "&lt;All Customers&gt;" || nId == cCustomer || nId == null)
+                $("tr:eq(" + index + ")").css("display", "table-row");
             else
-                $("tr:eq(" + nCount + ")").css("display", "none");            
-        }
+                $("tr:eq(" + index + ")").css("display", "none");            
+        });
     }
 }
 
@@ -281,13 +284,12 @@ function FGetCustomerProjectsToCmb(pnCustomerID, pcComboId, pnSelectedValue){
             var PROJECT_ID = 0;
             var PROJECT_NAME = 1;
             var acProjects = JSON.parse(data);
-            // The projects combo in the form does not include an "<All Projects>" value
-            if(pcComboId == "cmbProjects")  
-                cProjects = "";
-            else    // The combo that filters projects for the table includes an "<All Projects>" value
-                cProjects = "<option value='0'>&lt;All Projects&gt;</option>";
 
             $("#" + pcComboId + " option").remove();    // The combo is emptied
+
+            // The combo that filters projects for the table includes an "<All Projects>" value
+            if(pcComboId == "cmbProjectList")  
+                $("#" + pcComboId).append($("<option />").val(0).text("<All Projects>"));
 
             $.each(acProjects, function(nIndex, xValue) {
                 $("#" + pcComboId).append($("<option />").val(xValue[PROJECT_ID]).text(xValue[PROJECT_NAME]));
@@ -529,7 +531,7 @@ function FSubmitRegTime(){
         if(data.txtRegTime == ""){ alert("Registered Time cannot be empty"); return; }
 
         $.post("src/main.php", data, function(d){
-            $("button#dismiss").click();    // The customer form is hidden
+            $("button#dismiss").click();    // The registerd times form is hidden
             FReloadRegTimes();              // Registered times are reloaded in the table
         });
     });
